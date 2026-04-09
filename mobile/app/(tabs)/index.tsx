@@ -113,8 +113,12 @@ export default function HomeScreen() {
                 </View>
                 <View style={styles.cardBody}>
                   <Text style={styles.cafeName}>{item.name}</Text>
+                  <Text style={styles.address}>{item.address}</Text>
                   <StarRating rating={item.rating} />
-                  <Text style={styles.distance}>📍 {formatDistance(item.distance_km)}</Text>
+                  <View style={styles.cardFooter}>
+                    <Text style={styles.distance}>📍 {formatDistance(item.distance_km)}</Text>
+                    <Text style={styles.reviewCount}>{item.review_count.toLocaleString()} reviews</Text>
+                  </View>
                 </View>
               </View>
             )}
@@ -323,6 +327,21 @@ const styles = StyleSheet.create({
   distance: {
     fontSize: 13,
     color: '#A07850',
+    fontFamily: COSY_FONT,
+  },
+  address: {
+    fontSize: 13,
+    color: '#B09070',
+    fontFamily: COSY_FONT,
+  },
+  cardFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  reviewCount: {
+    fontSize: 12,
+    color: '#B09070',
     fontFamily: COSY_FONT,
   },
 });
