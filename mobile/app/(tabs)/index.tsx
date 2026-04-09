@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  Linking,
   Platform,
   StyleSheet,
   Text,
@@ -10,6 +11,12 @@ import {
 } from 'react-native';
 import { Cafe } from '@/types/cafe';
 import { getNearbyRecommendations } from '@/services/api';
+
+function openInMaps(cafe: Cafe) {
+  Linking.openURL(
+    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(cafe.name)}&query_place_id=${cafe.place_id}`
+  );
+}
 
 const COSY_FONT = Platform.OS === 'ios' ? 'Georgia' : 'serif';
 
@@ -107,7 +114,7 @@ export default function HomeScreen() {
             keyExtractor={(item) => item.name}
             contentContainerStyle={styles.list}
             renderItem={({ item, index }) => (
-              <View style={styles.card}>
+              <TouchableOpacity style={styles.card} activeOpacity={0.75} onPress={() => openInMaps(item)}>
                 <View style={styles.cardRank}>
                   <Text style={styles.cardRankText}>#{index + 1}</Text>
                 </View>
@@ -120,7 +127,7 @@ export default function HomeScreen() {
                     <Text style={styles.reviewCount}>{item.review_count.toLocaleString()} reviews</Text>
                   </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             )}
           />
         </>

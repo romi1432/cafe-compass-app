@@ -4,4 +4,7 @@ export type Cafe = {
   review_count: number;
   address: string;
   distance_km: number;
+  lat: number;
+  lng: number;
+  place_id: string;
 };

@@ -4,6 +4,9 @@ export type Cafe = {
   review_count: number;
   address: string;
   distance_km: number;
+  lat: number;
+  lng: number;
+  place_id: string;
 };
 
 const PLACES_BASE_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
@@ -73,6 +76,9 @@ export async function getRecommendations(latitude: number, longitude: number): P
     rating: place.rating ?? 0,
     review_count: place.user_ratings_total ?? 0,
     address: place.vicinity ?? "",
+    place_id: place.place_id,
+    lat: place.geometry.location.lat,
+    lng: place.geometry.location.lng,
     distance_km: parseFloat(
       haversineDistance(latitude, longitude, place.geometry.location.lat, place.geometry.location.lng).toFixed(2)
     ),
