@@ -21,6 +21,35 @@ function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
+const TOP_N = 3;
+
+// Scoring weights must sum to 1
+const WEIGHTS = { distance: 0.5, rating: 0.35, review_count: 0.15 };
+
+/**
+ * Score a cafe from 0–1 using three factors:
+ *   Distance:     1 / (1 + km)      — closer scores higher, no upper bound needed
+ *   Rating:       rating / 5        — normalised against max possible rating
+ *   Review count: min(count, 500) / 500 — capped so viral outliers don't dominate
+ */
+function score(cafe: Cafe): number {
+  const distanceScore  = 1 / (1 + cafe.distance_km);
+  const ratingScore    = cafe.rating / 5;
+  const reviewScore    = Math.min(cafe.review_count, 500) / 500;
+
+  return (
+    WEIGHTS.distance     * distanceScore +
+    WEIGHTS.rating       * ratingScore +
+    WEIGHTS.review_count * reviewScore
+  );
+}
+
+function rankCafes(cafes: Cafe[]): Cafe[] {
+  return cafes
+    .sort((a, b) => score(b) - score(a))
+    .slice(0, TOP_N);
+}
+
 export async function getRecommendations(latitude: number, longitude: number): Promise<Cafe[]> {
   const apiKey = process.env.GOOGLE_PLACES_API_KEY;
   if (!apiKey) throw new Error("GOOGLE_PLACES_API_KEY is not set");
@@ -39,7 +68,7 @@ export async function getRecommendations(latitude: number, longitude: number): P
     throw new Error(`Places API error: ${data.status}`);
   }
 
-  return (data.results ?? []).map((place: any) => ({
+  const cafes: Cafe[] = (data.results ?? []).map((place: any) => ({
     name: place.name,
     rating: place.rating ?? 0,
     review_count: place.user_ratings_total ?? 0,
@@ -48,4 +77,6 @@ export async function getRecommendations(latitude: number, longitude: number): P
       haversineDistance(latitude, longitude, place.geometry.location.lat, place.geometry.location.lng).toFixed(2)
     ),
   }));
+
+  return rankCafes(cafes);
 }
