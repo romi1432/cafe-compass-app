@@ -63,7 +63,7 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Cafe Compass</Text>
-        <Text style={styles.tagline}>your cosy corner awaits ☕</Text>
+        <Text style={styles.tagline}>your coffee awaits ☕</Text>
       </View>
 
       {/* Initial hero state */}
