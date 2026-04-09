@@ -19,9 +19,11 @@ app.post("/recommendations", (req, res) => {
 
   return res.json({
     cafes: [
-      { name: "Cafe 1", rating: 4.5 },
-      { name: "Cafe 2", rating: 4.3 },
-      { name: "Cafe 3", rating: 4.7 }
+      { name: "The Cosy Bean", rating: 4.8, distance_km: 0.3 },
+      { name: "Brewed Awakening", rating: 4.5, distance_km: 0.7 },
+      { name: "Grounds for Celebration", rating: 4.3, distance_km: 1.1 },
+      { name: "The Daily Grind", rating: 4.6, distance_km: 1.4 },
+      { name: "Perk & Pie", rating: 4.2, distance_km: 2.0 },
     ]
   });
 });

@@ -1,0 +1,11 @@
+{
+  "name": "cafe-compass",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently --names \"backend,mobile\" --prefix-colors \"cyan,magenta\" \"npm run dev --prefix backend\" \"npm start --prefix mobile\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}
