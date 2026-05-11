@@ -1,9 +1,7 @@
 import * as Location from 'expo-location';
 import { Cafe } from '@/types/cafe';
 
-// Use your machine's local IP when testing on a physical device
-// Run `ipconfig` (Windows) or `ifconfig` (Mac/Linux) to find it
-const API_URL = 'http://192.168.18.8:3000';
+const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export async function getNearbyRecommendations(): Promise<Cafe[]> {
   const { status } = await Location.requestForegroundPermissionsAsync();

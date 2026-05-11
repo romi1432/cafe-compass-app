@@ -106,7 +106,7 @@ export default function HomeScreen() {
       {hasResults && (
         <>
           <TouchableOpacity style={styles.searchAgainButton} onPress={fetchRecommendations} disabled={loading}>
-            <Text style={styles.searchAgainText}>🔄  Search Again</Text>
+            <Text style={styles.searchAgainText}>Search Again</Text>
           </TouchableOpacity>
 
           <FlatList
